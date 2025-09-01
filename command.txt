@@ -12,9 +12,15 @@ uvicorn your_script_name:app --reload --host 0.0.0.0 --port 8075
 pip install playwright
 pip install dotenv
 pip install chainlit
+pip install dotenv
+pip install -U langchain-core
+pip install -U langchain
+pip install -U langchain-openai
 
 chainlit run app.py -w
 
 uvicorn main:app --host 0.0.0.0 --port 80
 
 https://lucide.dev/icons/categories#development
+
+pip install -U langchain-core

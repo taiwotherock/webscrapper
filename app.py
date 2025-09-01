@@ -1,7 +1,10 @@
+
+from urllib import response
 import chainlit as cl
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
 import os
+from classify_text import classify_text
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -119,19 +122,27 @@ async def on_action(action: cl.Action):
 async def main(message: cl.Message):
     message_history = cl.user_session.get("message_history")
     message_history.append({"role": "user", "content": message.content})
+    textInput = message.content
+    print(textInput)
 
     msg = cl.Message(content="")
 
-    stream = await client.chat.completions.create(
+    '''stream = await client.chat.completions.create(
         messages=message_history, stream=True, **settings
     )
+    '''
 
-    async for part in stream:
+    '''async for part in stream:
         if token := part.choices[0].delta.content or "":
             await msg.stream_token(token)
+    '''
+    
+    response = classify_text(textInput)
+    
 
-    message_history.append({"role": "assistant", "content": msg.content})
-    await msg.update()
+    message_history.append({"role": "assistant", "content": response})
+    await cl.Message(response).send()
+    #await msg.update()
 
 
 '''
